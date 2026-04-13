@@ -2,7 +2,7 @@ package com.cateatingpancakes;
 
 import java.io.Serializable;
 
-public class Tile implements Comparable<Tile>, Serializable
+public final class Tile implements Comparable<Tile>, Serializable
 {
     public static enum TileType 
     {
@@ -10,40 +10,52 @@ public class Tile implements Comparable<Tile>, Serializable
         PINZU,
         SOUZU,
         HONOR,
-        FLOWER // For completeness, but this is only used in hana mahjong and is not implemented.
+        FLOWER // For completeness, but this is only used in hana mahjong (which is not implemented)
     }
 
-    private TileType tileType;
-    private int number;
-    private boolean isRed;
+    private final TileType tileType;
+    private final int      number;
+    private final boolean  isRed;
 
     /**
-     * Returns a 1-character String uniquely associated with a given tile type.
-     * @param tileType The type of the tile.
+     * Returns the 1-character String uniquely associated with a given tile suit in MPSZ notation.
+     * @param tileType The type/suit of the tile.
      * @return The corresponding String.
      */
-    static String typeString(TileType tileType)
+    static String getMPSZCharacter(TileType tileType)
     {
         switch(tileType)
         {
-            // Note that case-switch fallthrough isn't an issue here, since we return immediately.
-            case MANZU:
+            case MANZU -> {
                 return "m";
-            case PINZU:
+            }
+            case PINZU -> {
                 return "p";
-            case SOUZU:
+            }
+            case SOUZU -> {
                 return "s";
-            case HONOR:
+            }
+            case HONOR -> {
                 return "z";
-            case FLOWER:
+            }
+            case FLOWER -> {
                 return "f";
-            default:
-                throw new IllegalArgumentException("Cannot acquire type string of unrecognized tile type " + tileType);
+            }
+            default -> throw new AssertionError("Could not resolve tile type " + tileType);
         }
     }
 
     /**
-     * Constructs a tile based on its integer index. The tile is defaulted to be non-red.
+     * Returns the 1-character String uniquely associated with the suit of this tile in MPSZ notation.
+     * @return The corresponding String.
+     */
+    public String getMPSZCharacter()
+    {
+        return Tile.getMPSZCharacter(tileType);
+    }
+
+    /**
+     * Constructs a tile based on its index number. The tile is defaulted to be non-red.
      * @param tileIndex The tile index.
      */
     public Tile(int tileIndex)
@@ -52,14 +64,14 @@ public class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Constructs a tile based on its integer index.
+     * Constructs a tile based on its index number and redness.
      * @param tileIndex The tile index.
      * @param isRed Redness of the tile.
      */
     public Tile(int tileIndex, boolean isRed)
     {
-        this(Tile.fromIndex(tileIndex));
-        this.isRed = isRed;
+        Tile baseTile = Tile.fromIndex(tileIndex);
+        this(baseTile.tileType, baseTile.number, isRed);
     }
 
     /**
@@ -69,12 +81,11 @@ public class Tile implements Comparable<Tile>, Serializable
      */
     public Tile(TileType tileType, int number) 
     {
-        // Default to non-red tiles
         this(tileType, number, false);
     }
 
     /**
-     * Constructs a tile based on all its attributes.
+     * Constructs a tile given its complete description in suit, rank and redness.
      * @param tileType The type/suit of the tile.
      * @param number The number of the tile within its suit, between 0 and SUIT_MAX - 1.
      * @param isRed Redness of the tile.
@@ -82,8 +93,8 @@ public class Tile implements Comparable<Tile>, Serializable
     public Tile(TileType tileType, int number, boolean isRed) 
     {
         this.tileType = tileType;
-        this.number = number;
-        this.isRed = isRed;
+        this.number   = number;
+        this.isRed    = isRed;
     }
 
     /**
@@ -93,13 +104,13 @@ public class Tile implements Comparable<Tile>, Serializable
     public Tile(Tile tile)
     {
         this.tileType = tile.tileType;
-        this.number = tile.number;
-        this.isRed = tile.isRed;
+        this.number   = tile.number;
+        this.isRed    = tile.isRed;
     }
 
     /**
-     * Converts the tile to an integer index number, ignoring redness.
-     * This is most useful for algorithmic purposes such as calculating how many tiles a hand is away from being ready.
+     * Converts the tile to an index number, ignoring redness.
+     * This is most useful for algorithmic purposes, such as calculating how many tiles a hand is away from being ready.
      * @return The tile index number.
      */
     public int toIndex() 
@@ -108,27 +119,23 @@ public class Tile implements Comparable<Tile>, Serializable
 
         switch(tileType)
         {
-            // Tile ranges listed below:
-            case MANZU:
+            // Suit ranges listed (commented) below
+            case MANZU -> 
                 // 0-8
                 index = 0;
-                break;
-            case PINZU:
+            case PINZU -> 
                 // 9-17
                 index = 9;
-                break;
-            case SOUZU:
+            case SOUZU -> 
                 // 18-26
                 index = 18;
-                break;
-            case HONOR:
+            case HONOR -> 
                 // 27-33
                 index = 27;
-                break;
-            case FLOWER:
+            case FLOWER -> 
                 // 34-37
                 index = 34;
-                break;
+            default -> throw new AssertionError("Could not resolve tile type " + tileType);
         }
 
         index += number;
@@ -136,7 +143,7 @@ public class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Converts a tile index number into a non-red Tile object of that index.
+     * Converts an index number into a non-red Tile object of that index number.
      * @param index The index number of the tile.
      * @return The Tile object.
      */
@@ -171,36 +178,49 @@ public class Tile implements Comparable<Tile>, Serializable
             number = index - 34;
         }
         else
-            throw new IllegalArgumentException("Cannot resolve a tile from tile index " + index);
+            throw new IllegalArgumentException("Could not resolve index number " + index);
 
         return new Tile(tileType, number);
     }
 
     /**
-     * Returns the common number associated with a tile.
+     * Returns the MPSZ number of a tile as a String of exactly 1 character.
      * This method assumes the convention that red tiles are always unique in their suit and assigns 0 to those tiles.
-     * Do not confuse this with index of the tile, which is mainly for internal use, and ignores redness.
-     * @return The common tile number.
+     * Do not confuse this result with index number of the tile, which is mainly for internal use, and ignores redness.
+     * @return The MPSZ number.
      */
-    public String getCommonNumber()
+    public String getMPSZNumber()
     {
         if(isRed)
             return "0";
         else
-            return Integer.toString(number + 1); // Transform internal representation range [0, SUIT_SIZE - 1] 
-                                                 // into the more human-readable [1, SUIT_SIZE] for non-reds.
+            // We have to transform the internal representation range [0, SUIT_SIZE - 1] 
+            // into the more human-readable (MPSZ) [1, SUIT_SIZE] for tiles that aren't red
+            return Integer.toString(number + 1);
     }
 
     /**
-     * Returns a human-readable String representation of a tile.
+     * Returns the unique MPSZ notation of a tile as a 2-character String.
+     * @return The MPSZ notation.
+     */
+    public String getMPSZNotation()
+    {
+        return getMPSZNumber() + Tile.getMPSZCharacter(tileType);
+    }
+
+    /**
+     * Returns a human-readable String representation of a tile. This is taken to be its MPSZ notation.
      * @return The String representation.
      */
     @Override
     public String toString()
     {
-        return getCommonNumber() + Tile.typeString(tileType);
+        return getMPSZNotation();
     }
 
+    /**
+     * Compares a tile to another in MPSZ order.
+     */
     @Override
     public int compareTo(Tile other)
     {
@@ -209,11 +229,35 @@ public class Tile implements Comparable<Tile>, Serializable
         if(thisIndex == otherIndex)
         {
             if(this.isRed == other.isRed)
-                return 0; // Same index and same redness = same tile.
+                // Same index and same redness = same tile
+                return 0;
             else
-                return this.isRed ? 1 : -1; // Tiles aren't of the same redness = only one is red. Is it this or that?
+                // Tiles aren't of the same redness = only one is red, is it this or that
+                return this.isRed ? 1 : -1;
         }
         else
             return thisIndex - otherIndex;
+    }
+
+    @Override
+    public boolean equals(Object other) 
+    {
+        if(this == other) 
+            return true;
+
+        if(other == null || getClass() != other.getClass()) 
+            return false;
+
+        Tile otherTile = (Tile)other;
+
+        return tileType == otherTile.tileType &&
+               number == otherTile.number &&
+               isRed == otherTile.isRed;
+    }
+
+    @Override
+    public int hashCode() 
+    {
+        return java.util.Objects.hash(tileType, number, isRed);
     }
 }
