@@ -46,6 +46,18 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
+     * Creates a new TileSet with an additional tile added.
+     * @param tile The tile to add.
+     * @return The new TileSet.
+     */
+    public TileSet addNew(Tile tile)
+    {
+        TileSet newSet = new TileSet(tiles);
+        newSet.add(tile);
+        return newSet;
+    }
+
+    /**
      * Returns the tile at a specified index in the tile set.
      * @param index The index to acquire the tile from.
      * @return The tile at the given index.
@@ -57,11 +69,44 @@ public class TileSet implements Iterable<Tile>, Serializable
 
     /**
      * Removes the tile at a specified index in the tile set.
-     * @param index The index to remove the tile from.
+     * @param index The index of the tile to be removed.
      */
     public void remove(int index)
     {
         tiles.remove(index);
+    }
+
+    /**
+     * Removes the first occurence of a given tile from the tile set.
+     * @param tile The tile to remove.
+     */
+    public void remove(Tile tile)
+    {
+        tiles.remove(tile);
+    }
+
+    /**
+     * Creates a new TileSet with a tile removed from a certain index.
+     * @param index The index of the tile to be removed.
+     * @return A TileSet without the tile at that index.
+     */
+    public TileSet removeNew(int index)
+    {
+        TileSet newSet = new TileSet(tiles);
+        newSet.remove(index);
+        return newSet;
+    }
+
+    /**
+     * Creates a new TileSet with the first occurence of a certain tile removed.
+     * @param tile The tile to remove.
+     * @return A TileSet without the first occurence of the given tile.
+     */
+    public TileSet removeNew(Tile tile)
+    {
+        TileSet newSet = new TileSet(tiles);
+        newSet.remove(tile);
+        return newSet;
     }
 
     /**

@@ -25,7 +25,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.cateatingpancakes.client.RengaClient</mainClass>
+                  <mainClass>com.cateatingpancakes.server.RengaServer</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -34,20 +34,6 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>hamcrest-core</artifactId>
-          <groupId>org.hamcrest</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-  </dependencies>
   <properties>
     <exec.mainClass>com.cateatingpancakes.server.RengaServer</exec.mainClass>
   </properties>

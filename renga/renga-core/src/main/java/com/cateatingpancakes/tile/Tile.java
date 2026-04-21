@@ -46,15 +46,6 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Returns the 1-character String uniquely associated with the suit of this tile in MPSZ notation.
-     * @return The corresponding String.
-     */
-    public String getMPSZCharacter()
-    {
-        return Tile.getMPSZCharacter(tileType);
-    }
-
-    /**
      * Constructs a tile based on its index number. The tile is defaulted to be non-red.
      * @param tileIndex The tile index.
      */
@@ -106,6 +97,15 @@ public final class Tile implements Comparable<Tile>, Serializable
         this.tileType = tile.tileType;
         this.number   = tile.number;
         this.isRed    = tile.isRed;
+    }
+
+    /**
+     * Returns the 1-character String uniquely associated with the suit of this tile in MPSZ notation.
+     * @return The corresponding String.
+     */
+    public String getMPSZCharacter()
+    {
+        return Tile.getMPSZCharacter(tileType);
     }
 
     /**
