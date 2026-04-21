@@ -10,7 +10,7 @@ public class BasicWall extends TileSet
      * Builds a wall given a WallBuilder strategy whose buildWall() method will be called to provide the tiles.
      * @param strategy The WallBuilder to use.
      */
-    BasicWall(WallBuilder strategy)
+    public BasicWall(WallBuilder strategy)
     {
         super(strategy.buildWall());
         shuffle();
@@ -22,7 +22,7 @@ public class BasicWall extends TileSet
      * @param strategy The WallBuilder to use.
      * @param randomSeed The seed to call shuffle() with.
      */
-    BasicWall(WallBuilder strategy, long seed)
+    public BasicWall(WallBuilder strategy, long seed)
     {
         super(strategy.buildWall());
         shuffle(seed);

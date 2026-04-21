@@ -65,13 +65,20 @@ public class BasicHand extends TileSet
     }
 
     /**
-     * Transforms the hand into a frequency array of tile index numbers.
+     * Transforms the non-melded part of the hand into a frequency array of tile index numbers.
      * @return The array of counts.
      */
     private int[] toCountArray()
     {
-        // TODO: A real method
-        return new int[]{-1};
+        int[] counts = new int[Tile.INDEX_NUMBER_MAX];
+
+        for(Tile tile : tiles)
+        {
+            int index = tile.toIndex();
+            counts[index]++;
+        }
+
+        return counts;
     }
 
     /**

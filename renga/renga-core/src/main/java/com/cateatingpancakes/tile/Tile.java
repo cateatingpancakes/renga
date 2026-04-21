@@ -4,13 +4,21 @@ import java.io.Serializable;
 
 public final class Tile implements Comparable<Tile>, Serializable
 {
+    /**
+     * Maximum index number possible for a tile.
+     * The range for Riichi is 0-33, and almost all Mahjong variants should be covered by 0-41.
+     * This is more than double that.
+     */
+    public static final int INDEX_NUMBER_MAX = 42;
+
     public static enum TileType 
     {
         MANZU,
         PINZU,
         SOUZU,
         HONOR,
-        FLOWER // For completeness, but this is only used in hana mahjong (which is not implemented)
+        FLOWER, // For completeness, but this is only used in hana riichi (which is not implemented)
+        SEASON, // For some (non-implemented) variants of Chinese mahjong
     }
 
     private final TileType tileType;
@@ -40,6 +48,10 @@ public final class Tile implements Comparable<Tile>, Serializable
             }
             case FLOWER -> {
                 return "f";
+            }
+            case SEASON -> {
+                // Unsure if this is a standard name (likely isn't), send a pull request if that's the case
+                return "a";
             }
             default -> throw new AssertionError("Could not resolve tile type " + tileType);
         }
@@ -121,20 +133,23 @@ public final class Tile implements Comparable<Tile>, Serializable
         {
             // Suit ranges listed (commented) below
             case MANZU -> 
-                // 0-8
+                // Manzu range: 0-8
                 index = 0;
             case PINZU -> 
-                // 9-17
+                // Pinzu range: 9-17
                 index = 9;
             case SOUZU -> 
-                // 18-26
+                // Souzu range: 18-26
                 index = 18;
             case HONOR -> 
-                // 27-33
+                // Honors range: 27-33
                 index = 27;
             case FLOWER -> 
-                // 34-37
+                // Flowers range: 34-37
                 index = 34;
+            case SEASON ->
+                // Seasons range: 38-41
+                index = 38;
             default -> throw new AssertionError("Could not resolve tile type " + tileType);
         }
 
@@ -176,6 +191,11 @@ public final class Tile implements Comparable<Tile>, Serializable
         {
             tileType = TileType.FLOWER;
             number = index - 34;
+        }
+        else if(38 <= index && index <= 41)
+        {
+            tileType = TileType.SEASON;
+            number = index - 38;
         }
         else
             throw new IllegalArgumentException("Could not resolve index number " + index);
