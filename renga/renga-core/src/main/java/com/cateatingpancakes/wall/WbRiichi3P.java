@@ -2,9 +2,9 @@ package com.cateatingpancakes.wall;
 
 import java.util.ArrayList;
 
-import com.cateatingpancakes.Tile;
+import com.cateatingpancakes.tile.Tile;
 
-public final class WBRiichi3P extends WBRiichi
+public final class WbRiichi3P extends WbRiichi
 {
     public static final int[] DEFAULT_RED_COPIES  = {0, 1, 1, 0};
     public static final int[] DEFAULT_RED_NUMBERS = {4, 4, 4, 4};
@@ -12,7 +12,7 @@ public final class WBRiichi3P extends WBRiichi
     /**
      * 3-player Riichi wall builder strategy. Defaults to the most common sanma rules for red tiles.
      */
-    public WBRiichi3P() 
+    public WbRiichi3P() 
     {
         this(DEFAULT_RED_COPIES, DEFAULT_RED_NUMBERS);
     }
@@ -22,7 +22,7 @@ public final class WBRiichi3P extends WBRiichi
      * @param redCopies An array in MPSZ suit order counting how many red copies each suit has.
      * @param redNumbers An array in MPSZ suit order specifying which tile is the unique red tile in each suit.
      */
-    public WBRiichi3P(int[] redCopies, int[] redNumbers)
+    public WbRiichi3P(int[] redCopies, int[] redNumbers)
     {
         super(redCopies, redNumbers);
     }

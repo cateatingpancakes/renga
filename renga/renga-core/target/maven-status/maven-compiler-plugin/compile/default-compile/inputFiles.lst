@@ -1,2 +1,11 @@
-/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/Tile.java
-/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/TileSet.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/wall/WBRiichi4P.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/tile/IllegalMeldUpgrade.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/tile/TileMeld.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/wall/WBRiichi.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/BasicHand.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/BasicWall.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/tile/TileSet.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/tile/Tile.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/Test.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/wall/WallBuilder.java
+/home/mihnea/Desktop/Facultate/PAOJ/Proiect/renga/renga/renga-core/src/main/java/com/cateatingpancakes/wall/WBRiichi3P.java

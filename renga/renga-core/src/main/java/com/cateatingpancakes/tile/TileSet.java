@@ -1,4 +1,4 @@
-package com.cateatingpancakes;
+package com.cateatingpancakes.tile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,6 +65,15 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
+     * Returns the number of tiles in the tile set.
+     * @return The tile count.
+     */
+    public int size()
+    {
+        return tiles.size();
+    }
+
+    /**
      * Checks if the tile set contains a specific tile using Tile's equals implementation, that is, accounting for redness.
      * @param The tile to check for.
      * @return True, if the tile set contains the given tile, or false if it does not.
@@ -94,9 +103,9 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Shuffles the tile set according to a given random seed.
      * @param randomSeed The seed to shuffle by.
      */
-    public void shuffle(long randomSeed)
+    public void shuffle(long seed)
     {
-        Collections.shuffle(tiles, new Random(randomSeed));
+        Collections.shuffle(tiles, new Random(seed));
     }
 
     /**
@@ -108,14 +117,17 @@ public class TileSet implements Iterable<Tile>, Serializable
         if(tiles == null || tiles.isEmpty()) 
             throw new IllegalStateException("Could not get MPSZ notation of empty or null tile set");
 
-        sort();
+        // Need to work on a copy of the tiles array
+        // Otherwise, a print would change internal state
+        ArrayList<Tile> copy = new ArrayList<>(tiles);
+        copy.sort(null);
 
         StringBuilder MPSZ = new StringBuilder();
         // Can't simply start from "m" since a hand might not have any manzu
         // Think of a flush in pinzu, for instance, that should not contain the "m" in MPSZ
-        String lastSuit = tiles.get(0).getMPSZCharacter();
+        String lastSuit = copy.get(0).getMPSZCharacter();
 
-        for(Tile tile : tiles) 
+        for(Tile tile : copy)
         {
             String suitMPSZ = tile.getMPSZCharacter();
 
@@ -134,6 +146,20 @@ public class TileSet implements Iterable<Tile>, Serializable
         MPSZ.append(lastSuit);
 
         return MPSZ.toString();
+    }
+
+    /**
+     * Counts how many red tiles are in the tile set.
+     * @return The number of red tiles in the collection.
+     */
+    public int countRed()
+    {
+        int count = 0;
+        for(Tile tile : tiles)
+            if(tile.isRed())
+                count++;
+        
+        return count;
     }
 
     /**

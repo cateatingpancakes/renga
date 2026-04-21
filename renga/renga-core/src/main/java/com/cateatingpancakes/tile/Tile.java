@@ -1,4 +1,4 @@
-package com.cateatingpancakes;
+package com.cateatingpancakes.tile;
 
 import java.io.Serializable;
 
@@ -184,6 +184,15 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
+     * Returns the redness of a tile.
+     * @return A boolean value indicating true if the tile is red and false otherwise.
+     */
+    public boolean isRed()
+    {
+        return isRed;
+    }
+
+    /**
      * Returns the MPSZ number of a tile as a String of exactly 1 character.
      * This method assumes the convention that red tiles are always unique in their suit and assigns 0 to those tiles.
      * Do not confuse this result with index number of the tile, which is mainly for internal use, and ignores redness.
@@ -229,7 +238,7 @@ public final class Tile implements Comparable<Tile>, Serializable
         if(thisIndex == otherIndex)
         {
             if(this.isRed == other.isRed)
-                // Same index and same redness = same tile
+                // Same index and same redness = literal same tile
                 return 0;
             else
                 // Tiles aren't of the same redness = only one is red, is it this or that
@@ -242,17 +251,17 @@ public final class Tile implements Comparable<Tile>, Serializable
     @Override
     public boolean equals(Object other) 
     {
-        if(this == other) 
+        if(other == this) 
             return true;
 
         if(other == null || getClass() != other.getClass()) 
             return false;
 
-        Tile otherTile = (Tile)other;
+        Tile tile = (Tile)other;
 
-        return tileType == otherTile.tileType &&
-               number == otherTile.number &&
-               isRed == otherTile.isRed;
+        return tileType == tile.tileType &&
+               number   == tile.number &&
+               isRed    == tile.isRed;
     }
 
     @Override
