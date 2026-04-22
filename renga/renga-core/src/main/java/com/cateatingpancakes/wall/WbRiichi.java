@@ -37,31 +37,31 @@ public abstract class WbRiichi implements WallBuilder
     protected void addCopies(ArrayList<Tile> wall, Tile.TileType tileType, int suitIndex, int[] numbers)
     {
         // Loop variables, will count how many non-red and red 
-        // tiles are to be added for each iteration/tile number
+        // tiles are to be added for each iteration/tile number.
         int black, red;
 
         for(int number : numbers)
         {
-            // For most tiles, all non-red
+            // For most tiles, all non-red.
             black = DEFAULT_TILE_COPIES;
             red   = 0;
 
-            // There is exactly one exception, for the red tile of the suit
+            // There is exactly one exception, for the red tile of the suit.
             if(number == redNumbers[suitIndex])
             {
-                // If we fall in that case
-                // Switch out the needed non-red tiles
-                // Add that many red tiles in exchange
+                // If we fall in that case:
+                // Switch out the needed non-red tiles;
+                // add that many red tiles in exchange.
                 black -= redCopies[suitIndex];
                 red   += redCopies[suitIndex];
             }
 
-            // Add non-red tiles
+            // Add non-red tiles.
             for(int i = 0; i < black; i++)
                 wall.add(new Tile(tileType, number, false));
 
-            // Then add red tiles (if any)
-            // Loop just doesn't run if red == 0
+            // Then add red tiles, if any.
+            // Loop just doesn't run if red == 0.
             for(int i = 0; i < red; i++)
                 wall.add(new Tile(tileType, number, true));
         }

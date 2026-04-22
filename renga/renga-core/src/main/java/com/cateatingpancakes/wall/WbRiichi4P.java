@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.cateatingpancakes.tile.Tile;
 
-public class WbRiichi4P extends WbRiichi 
+public final class WbRiichi4P extends WbRiichi 
 {
     public static final int[] DEFAULT_RED_COPIES  = {1, 2, 1, 0};
     public static final int[] DEFAULT_RED_NUMBERS = {4, 4, 4, 4};
@@ -47,7 +47,7 @@ public class WbRiichi4P extends WbRiichi
 
             switch(tileType)
             {
-                // Set the suit index and define a set of tile numbers for each suit
+                // Set the suit index and define a set of tile numbers for each suit.
                 case Tile.TileType.MANZU -> {
                     suitIndex = 0;
                     numbers = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};

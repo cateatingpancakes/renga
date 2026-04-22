@@ -15,10 +15,9 @@ final class LoaderBridge
      */
     public static void requestLibrary(String libName) 
     {
+        // Don't load if already loaded.
         if(loaded.contains(libName)) 
-        {
             return;
-        }
 
         synchronized(LoaderBridge.class) 
         {

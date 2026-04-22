@@ -7,9 +7,31 @@ public final class Tile implements Comparable<Tile>, Serializable
     /**
      * Maximum index number possible for a tile.
      * The range for Riichi is 0-33, and almost all Mahjong variants should be covered by 0-41.
-     * This is more than double that.
      */
-    public static final int INDEX_NUMBER_MAX = 42;
+    public static final int   INDEX_NUMBER_MAX      = 42;
+
+    /**
+     * Maximum index number
+     * Regardless of flowers/seasons that may or may not be present, only the tiles with
+     * index number 0-33 will ever be relevant for algorithmic purposes, such as determining
+     * a hand's n-away number or finding all its interpretations.
+     */
+    public static final int   INDEX_NUMBER_ALG_MAX  = 34;
+
+    /**
+     * Maximum index number of tiles with numbers within their suit.
+     * This is also useful for algorithmic purposes where some branches of the n-away algorithm
+     * are only taken for numbered-suit tiles, such as checking for a sequence which is impossible
+     * to do with the honors that can form only triplets.
+     */
+    public static final int   INDEX_NUMBER_SUIT_MAX = 27;
+
+    /**
+     * The index numbers for the "thirteen orphan" tiles.
+     */
+    public static final int[] INDEX_NUMBER_ORPHANS = {
+        0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
+    };
 
     public static enum TileType 
     {
@@ -17,8 +39,8 @@ public final class Tile implements Comparable<Tile>, Serializable
         PINZU,
         SOUZU,
         HONOR,
-        FLOWER, // For completeness, but this is only used in hana riichi (which is not implemented)
-        SEASON, // For some (non-implemented) variants of Chinese mahjong
+        FLOWER, // For completeness, but this is only used in hana riichi, which is not implemented.
+        SEASON, // For some (non-implemented) variants of Chinese mahjong.
     }
 
     private final TileType tileType;
@@ -50,7 +72,7 @@ public final class Tile implements Comparable<Tile>, Serializable
                 return "f";
             }
             case SEASON -> {
-                // Unsure if this is a standard name (likely isn't), send a pull request if that's the case
+                // Unsure if this is a standard name (likely isn't), send a pull request if there's a standard notation.
                 return "a";
             }
             default -> throw new AssertionError("Could not resolve tile type " + tileType);
@@ -131,18 +153,18 @@ public final class Tile implements Comparable<Tile>, Serializable
 
         switch(tileType)
         {
-            // Suit ranges listed (commented) below
+            // Suit ranges listed below.
             case MANZU -> 
-                // Manzu range: 0-8
+                //   Manzu range: 0-8
                 index = 0;
             case PINZU -> 
-                // Pinzu range: 9-17
+                //   Pinzu range: 9-17
                 index = 9;
             case SOUZU -> 
-                // Souzu range: 18-26
+                //   Souzu range: 18-26
                 index = 18;
             case HONOR -> 
-                // Honors range: 27-33
+                //  Honors range: 27-33
                 index = 27;
             case FLOWER -> 
                 // Flowers range: 34-37
@@ -224,7 +246,7 @@ public final class Tile implements Comparable<Tile>, Serializable
             return "0";
         else
             // We have to transform the internal representation range [0, SUIT_SIZE - 1] 
-            // into the more human-readable (MPSZ) [1, SUIT_SIZE] for tiles that aren't red
+            // into the more human-readable (MPSZ) [1, SUIT_SIZE] for tiles that aren't red.
             return Integer.toString(number + 1);
     }
 
@@ -258,10 +280,10 @@ public final class Tile implements Comparable<Tile>, Serializable
         if(thisIndex == otherIndex)
         {
             if(this.isRed == other.isRed)
-                // Same index and same redness = literal same tile
+                // Same index and same redness = literal same tile.
                 return 0;
             else
-                // Tiles aren't of the same redness = only one is red, is it this or that
+                // Tiles aren't of the same redness = only one is red, is it this or that?
                 return this.isRed ? 1 : -1;
         }
         else

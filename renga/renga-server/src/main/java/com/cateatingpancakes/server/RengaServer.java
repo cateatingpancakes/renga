@@ -10,17 +10,21 @@ public class RengaServer
     public static void main(String[] args)
     {
         WallBuilder strategy = new WbRiichi4P();
-
-        long seed = 0, sumAway = 0;
+        
+        long seed = 0, sum = 0;
         for(int i = 0; i < 100000; i++)
         {
-            BasicWall wall = new BasicWall(strategy, seed);
-            BasicHand hand = new BasicHand(wall, 13);
-            int away = hand.getTilesAway();
-            sumAway += away;
+            BasicWall bw = new BasicWall(strategy, seed);
+            BasicHand bh = new BasicHand(bw, 13);
+            sum += bh.getTilesAway();
             seed++;
+
+            if(!bh.interpret().isEmpty())
+            {
+                System.out.println(bh);
+            }
         }
 
-        System.out.println(sumAway);
+        System.out.println(sum);
     }
 }

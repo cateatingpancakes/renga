@@ -162,21 +162,21 @@ public class TileSet implements Iterable<Tile>, Serializable
         if(tiles == null || tiles.isEmpty()) 
             throw new IllegalStateException("Could not get MPSZ notation of empty or null tile set");
 
-        // Need to work on a copy of the tiles array
-        // Otherwise, a print would change internal state
+        // Need to work on a copy of the tiles array.
+        // Otherwise, a print would change internal state.
         ArrayList<Tile> copy = new ArrayList<>(tiles);
         copy.sort(null);
 
         StringBuilder MPSZ = new StringBuilder();
-        // Can't simply start from "m" since a hand might not have any manzu
-        // Think of a flush in pinzu, for instance, that should not contain the "m" in MPSZ
+        // Can't simply start from "m" since a hand might not have any manzu!
+        // Think of a flush in pinzu, for instance, that should not contain the "m" in MPSZ.
         String lastSuit = copy.get(0).getMPSZCharacter();
 
         for(Tile tile : copy)
         {
             String suitMPSZ = tile.getMPSZCharacter();
 
-            // Append suit characters when the suit changes as we traverse the ArrayList
+            // Append suit characters when the suit changes as we traverse the ArrayList.
             if(!suitMPSZ.equals(lastSuit)) 
             {
                 MPSZ.append(lastSuit);
@@ -186,8 +186,8 @@ public class TileSet implements Iterable<Tile>, Serializable
             MPSZ.append(tile.getMPSZNumber());
         }
 
-        // Also append the last suit character
-        // Since there would be no suit change to trigger the append
+        // Also append the last suit character,
+        // since there would be no suit change to trigger the append.
         MPSZ.append(lastSuit);
 
         return MPSZ.toString();

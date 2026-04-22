@@ -34,7 +34,7 @@ public final class WbRiichi3P extends WbRiichi
     @Override
     public ArrayList<Tile> buildWall() 
     {
-        // Wall to be returned
+        // Wall to be returned.
         ArrayList<Tile> wall = new ArrayList<>();
 
         for(Tile.TileType tileType : new Tile.TileType[]{Tile.TileType.MANZU, 
@@ -47,7 +47,7 @@ public final class WbRiichi3P extends WbRiichi
 
             switch(tileType)
             {
-                // Set the suit index and define a set of tile numbers for each suit
+                // Set the suit index and define a set of tile numbers for each suit.
                 case Tile.TileType.MANZU -> {
                     suitIndex = 0;
                     numbers = new int[]{0, 8};
