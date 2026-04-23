@@ -3,6 +3,7 @@ com/cateatingpancakes/tile/TileMeld$MeldType.class
 com/cateatingpancakes/LoaderBridge.class
 com/cateatingpancakes/BasicHand.class
 com/cateatingpancakes/tile/Tile.class
+com/cateatingpancakes/hand/HandInterpretation.class
 com/cateatingpancakes/wall/WbRiichi3P$1.class
 com/cateatingpancakes/wall/WallBuilder.class
 com/cateatingpancakes/tile/TileMeld.class

@@ -136,10 +136,11 @@ void naway(jint * __restrict cnt_array, int calls, int& min_away)
 {
     naway_dfs(cnt_array, 0, calls, 0, 0, min_away);
 
-    // Save some checks here. Seven Pairs and kokushi are only in closed hands.
+    // Saves some checks here. Seven Pairs and kokushi are only in closed hands.
     if(calls == 0)
     {
         naway_pairs(cnt_array, min_away);
+
         naway_kokushi(cnt_array, min_away);
     }
 }
@@ -157,6 +158,7 @@ JNIEXPORT jint JNICALL Java_com_cateatingpancakes_BasicHand_tilesAway
     // Not 34, since hand may have undiscarded flowers/seasons up to 42.
     for(int i = 0; i < TILE_INDEX_NUMBER_MAX; i++)
         tile_cnt += cnt_array[i];
+
 
     int calls = CALLS[tile_cnt], min_away = 8;
     naway(cnt_array, calls, min_away);

@@ -33,14 +33,10 @@ public final class Tile implements Comparable<Tile>, Serializable
         0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
     };
 
+    
     public static enum TileType 
     {
-        MANZU,
-        PINZU,
-        SOUZU,
-        HONOR,
-        FLOWER, // For completeness, but this is only used in hana riichi, which is not implemented.
-        SEASON, // For some (non-implemented) variants of Chinese mahjong.
+        MANZU, PINZU, SOUZU, HONOR, FLOWER, SEASON
     }
 
     private final TileType tileType;
@@ -72,7 +68,7 @@ public final class Tile implements Comparable<Tile>, Serializable
                 return "f";
             }
             case SEASON -> {
-                // Unsure if this is a standard name (likely isn't), send a pull request if there's a standard notation.
+                // Unsure if this is a standard name, it likely isn't. Send a pull request if there's a standard notation.
                 return "a";
             }
             default -> throw new AssertionError("Could not resolve tile type " + tileType);
@@ -126,11 +122,11 @@ public final class Tile implements Comparable<Tile>, Serializable
      * Copy-constructs a tile.
      * @param tile The tile to copy.
      */
-    public Tile(Tile tile)
+    public Tile(Tile other)
     {
-        this.tileType = tile.tileType;
-        this.number   = tile.number;
-        this.isRed    = tile.isRed;
+        this.tileType = other.tileType;
+        this.number   = other.number;
+        this.isRed    = other.isRed;
     }
 
     /**

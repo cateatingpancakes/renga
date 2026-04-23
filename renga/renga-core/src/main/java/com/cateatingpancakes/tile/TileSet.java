@@ -31,9 +31,9 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Copy-constructs a tile set.
      * @param tileSet The TileSet object to copy.
      */
-    public TileSet(TileSet tileSet)
+    public TileSet(TileSet other)
     {
-        this(tileSet.tiles);
+        this(other.tiles);
     }
 
     /**
@@ -120,12 +120,26 @@ public class TileSet implements Iterable<Tile>, Serializable
 
     /**
      * Checks if the tile set contains a specific tile using Tile's equals implementation, that is, accounting for redness.
-     * @param The tile to check for.
+     * @param tile The tile to check for.
      * @return True, if the tile set contains the given tile, or false if it does not.
      */
     public boolean contains(Tile tile)
     {
         return tiles.contains(tile);
+    }
+
+    /**
+     * Checks if the tile set contains a specific index number, that is, ignoring redness.
+     * @param index The index number of the tile to check for.
+     * @return True, if the tile set contains a tile with the given index number.
+     */
+    public boolean contains(int index)
+    {
+        for(Tile tile : tiles)
+            if(tile.toIndex() == index)
+                return true;
+
+        return false;
     }
 
     /**

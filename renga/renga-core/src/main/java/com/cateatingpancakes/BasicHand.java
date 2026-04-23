@@ -65,9 +65,9 @@ public class BasicHand extends TileSet
      * Copy-constructs a hand.
      * @param basicHand The hand to copy.
      */
-    public BasicHand(BasicHand basicHand)
+    public BasicHand(BasicHand other)
     {
-        this(basicHand.tiles, basicHand.melds);
+        this(other.tiles, other.melds);
     }
 
     /**

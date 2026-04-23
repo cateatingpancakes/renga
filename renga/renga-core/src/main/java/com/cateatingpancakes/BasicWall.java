@@ -29,6 +29,15 @@ public class BasicWall extends TileSet
     }
 
     /**
+     * Copy-constructs a wall.
+     * @param other The wall to copy.
+     */
+    public BasicWall(BasicWall other)
+    {
+        super(other.tiles);
+    }
+
+    /**
      * Returns the tile that will be removed and returned by the next call to drawTop().
      * @return The next tile to be drawn.
      */

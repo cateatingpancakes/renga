@@ -6,22 +6,19 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
 {
     public static enum MeldType
     {
-        CHII,
-        PON,
-        KAN_C, // Closed kan
-        KAN_O, // Open kan
-        KAN_A  // Added/upgraded kan
-               // See: https://riichi.wiki/Kan for an explanation of kan types
+        CHII, PON, KAN_CLOSED, KAN_OPEN, KAN_ADDED
+        // See: https://riichi.wiki/Kan
     }
 
     private MeldType meldType;
     private TileSet  tiles;
     private Tile     leadingTile;
+    private CallData callData;
 
     /**
      * Constructs a tile meld from the set of component tiles.
      * @param meldType The type of the meld.
-     * @param tiles An ArrayList of of tiles participating in the meld.
+     * @param tiles A non-null, non-empty ArrayList of of tiles participating in the meld.
      */
     public TileMeld(MeldType meldType, TileSet tiles)
     {
@@ -37,9 +34,9 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
      * Copy-constructs a tile meld.
      * @param tileMeld The tile meld to copy.
      */
-    public TileMeld(TileMeld tileMeld)
+    public TileMeld(TileMeld other)
     {
-        this(tileMeld.meldType, tileMeld.tiles);
+        this(other.meldType, other.tiles);
     }
 
     /**
@@ -63,6 +60,35 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
     }
 
     /**
+     * Sets information about the call used to form the meld.
+     * @param data The call data.
+     */
+    public void setData(CallData data)
+    {
+        this.callData = data;
+    }
+
+    /**
+     * Gets information about the call used to form the meld if it exists.
+     * @return The call data, or null if the meld is a closed kan or has no registered call data. Note that it is not
+     * necessarily indicative of some error if the latter case occurs, as a TileMeld, other than ankans, with no call data,
+     * can be validly produced by Hand.interpret() and represent melds present in the closed/hidden part of the hand.
+     */
+    public CallData getData()
+    {
+        return callData;
+    }
+
+    /**
+     * Checks whether the meld has call data.
+     * @return True, if call data exists.
+     */
+    public boolean hasData()
+    {
+        return (callData != null);
+    }
+
+    /**
      * Upgrades a pon into a shouminkan.
      * @param addedTile The tile to be added to the meld.
      * @throws IllegalMeldUpgrade If the meld is not a pon that can be upgraded into shouminkan with the added tile, this exception is thrown.
@@ -70,12 +96,18 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
     public void upgradePonIntoKan(Tile addedTile)
     {
         if(meldType != MeldType.PON)
+        {
             throw new IllegalMeldUpgrade("Could not upgrade meld of type " + meldType);
+        }
 
         if(addedTile.toIndex() != leadingTile.toIndex())
-            throw new IllegalMeldUpgrade("Could not upgrade pon of " + leadingTile + " into shouminkan with " + addedTile);
+        {
+            throw new IllegalMeldUpgrade("Could not upgrade pon of " + leadingTile + " with " + addedTile);
+        }
 
-        meldType = MeldType.KAN_A;
+        // Change the meld type, it's not a pon anymore.
+        meldType = MeldType.KAN_ADDED;
+
         tiles.add(addedTile);
     }
 
@@ -100,5 +132,4 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
 
         return thisTile.compareTo(otherTile);
     }
-
 }

@@ -10,6 +10,14 @@ final class LoaderBridge
     private static final Set<String> loaded = ConcurrentHashMap.newKeySet();
 
     /**
+     * Private default constructor. Prevents the class from being instantiated.
+     */
+    private LoaderBridge()
+    {
+
+    }
+
+    /**
      * Requests that a library be loaded. If the library is already loaded, nothing happens.
      * @param libName The name of the library to be loaded.
      */
