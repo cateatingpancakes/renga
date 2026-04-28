@@ -8,9 +8,9 @@ import com.cateatingpancakes.tile.Tile;
 import com.cateatingpancakes.tile.TileMeld;
 import com.cateatingpancakes.tile.TileSet;
 
-public class CommonSplitter implements HandSplitter
+public class CommonSplitter implements Splitter
 {
-    static 
+    static
     {
         LoaderBridge.requestLibrary("core");
     }
@@ -34,6 +34,7 @@ public class CommonSplitter implements HandSplitter
     @Override
     public int tilesAway(Splittable hand) 
     {
+        // TODO: Implement and call a Java-only fallback if the native isn't available.
         return __tilesAway(hand.toCountArray());
     }
 

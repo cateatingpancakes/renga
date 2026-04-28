@@ -53,16 +53,16 @@ public final class Tile implements Comparable<Tile>, Serializable
     {
         switch(tileType)
         {
-            case MANZU -> {
+            case  MANZU -> {
                 return "m";
             }
-            case PINZU -> {
+            case  PINZU -> {
                 return "p";
             }
-            case SOUZU -> {
+            case  SOUZU -> {
                 return "s";
             }
-            case HONOR -> {
+            case  HONOR -> {
                 return "z";
             }
             case FLOWER -> {
@@ -151,16 +151,16 @@ public final class Tile implements Comparable<Tile>, Serializable
         switch(tileType)
         {
             // Suit ranges listed below.
-            case MANZU -> 
+            case  MANZU -> 
                 //   Manzu range: 0-8
                 index = 0;
-            case PINZU -> 
+            case  PINZU -> 
                 //   Pinzu range: 9-17
                 index = 9;
-            case SOUZU -> 
+            case  SOUZU -> 
                 //   Souzu range: 18-26
                 index = 18;
-            case HONOR -> 
+            case  HONOR -> 
                 //  Honors range: 27-33
                 index = 27;
             case FLOWER -> 

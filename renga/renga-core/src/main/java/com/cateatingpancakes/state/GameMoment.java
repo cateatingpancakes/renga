@@ -2,12 +2,16 @@ package com.cateatingpancakes.state;
 
 import java.io.Serializable;
 
-public record GameMoment(int game, GameWind round) implements Serializable
+public record GameMoment(int game, int repeat, GameWind round) implements Serializable
 {
-    public static enum GameWind
+    /**
+     * Copy-constructs a game moment.
+     * @param moment The moment to copy.
+     */
+    public GameMoment(GameMoment other)
     {
-        W_EAST, W_SOUTH, W_WEST, W_NORTH
-    }    
+        this(other.game, other.repeat, other.round);
+    }
 
     /**
      * Returns the game wind immediately following a given game wind.
@@ -18,17 +22,17 @@ public record GameMoment(int game, GameWind round) implements Serializable
     {
         switch(wind)
         {
-            case W_EAST -> {
-                return GameWind.W_SOUTH;
+            case  EAST -> {
+                return GameWind.SOUTH;
             }
-            case W_SOUTH -> {
-                return GameWind.W_WEST;
+            case SOUTH -> {
+                return GameWind.WEST;
             }
-            case W_WEST -> {
-                return GameWind.W_NORTH;
+            case  WEST -> {
+                return GameWind.NORTH;
             }
-            case W_NORTH -> {
-                return GameWind.W_EAST;
+            case NORTH -> {
+                return GameWind.EAST;
             }
             default -> throw new AssertionError("Could not resolve game wind " + wind);
         }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * to determine the n-away number and to recognize all possible interpretations of a given
  * hand.
  */
-public interface HandSplitter 
+public interface Splitter 
 {
     /**
      * Finds the n-away number of a hand.
