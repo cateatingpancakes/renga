@@ -1,14 +1,13 @@
-package com.cateatingpancakes;
+package com.cateatingpancakes.state;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public abstract class GameState implements Serializable
+public record GameMoment(int game, GameWind round) implements Serializable
 {
     public static enum GameWind
     {
         W_EAST, W_SOUTH, W_WEST, W_NORTH
-    }
+    }    
 
     /**
      * Returns the game wind immediately following a given game wind.
@@ -33,31 +32,5 @@ public abstract class GameState implements Serializable
             }
             default -> throw new AssertionError("Could not resolve game wind " + wind);
         }
-    }
-
-    protected BasicWall              wall;
-    protected ArrayList<DiscardPond> ponds;
-    protected ArrayList<BasicHand>   hands;
-    protected ArrayList<GameWind>    seats;
-    protected GameWind               round;
-
-    /**
-     * Constructs an empty game state.
-     */
-    public GameState()
-    {
-        this.ponds = new ArrayList<>();
-        this.hands = new ArrayList<>();
-        this.seats = new ArrayList<>();
-    }
-
-    /**
-     * Constructs a game state starting from a given wall.
-     * @param wall The wall to use.
-     */
-    public GameState(BasicWall wall)
-    {
-        this();
-        this.wall = new BasicWall(wall);
     }
 }

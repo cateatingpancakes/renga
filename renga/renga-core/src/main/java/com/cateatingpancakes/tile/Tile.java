@@ -8,7 +8,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      * Maximum index number possible for a tile.
      * The range for Riichi is 0-33, and almost all Mahjong variants should be covered by 0-41.
      */
-    public static final int   INDEX_NUMBER_MAX      = 42;
+    public static final int INDEX_NUMBER_MAX      = 42;
 
     /**
      * Maximum index number
@@ -16,7 +16,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      * index number 0-33 will ever be relevant for algorithmic purposes, such as determining
      * a hand's n-away number or finding all its interpretations.
      */
-    public static final int   INDEX_NUMBER_ALG_MAX  = 34;
+    public static final int INDEX_NUMBER_ALG_MAX  = 34;
 
     /**
      * Maximum index number of tiles with numbers within their suit.
@@ -24,12 +24,13 @@ public final class Tile implements Comparable<Tile>, Serializable
      * are only taken for numbered-suit tiles, such as checking for a sequence which is impossible
      * to do with the honors that can form only triplets.
      */
-    public static final int   INDEX_NUMBER_SUIT_MAX = 27;
+    public static final int INDEX_NUMBER_SUIT_MAX = 27;
 
     /**
      * The index numbers for the "thirteen orphan" tiles.
      */
-    public static final int[] INDEX_NUMBER_ORPHANS = {
+    public static final int[] INDEX_NUMBER_ORPHANS = 
+    {
         0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
     };
 

@@ -14,5 +14,5 @@ public interface WallBuilder
     /**
      * @return An ArrayList of tiles to begin in the wall.
      */
-    ArrayList<Tile> buildWall();
+    public ArrayList<Tile> buildWall();
 }

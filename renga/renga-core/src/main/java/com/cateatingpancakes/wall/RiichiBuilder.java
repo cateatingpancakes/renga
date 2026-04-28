@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.cateatingpancakes.tile.Tile;
 
-public abstract class WbRiichi implements WallBuilder 
+public abstract class RiichiBuilder implements WallBuilder 
 {
     // This is never parametrizable, and subclasses must never use a different tile copy value
     // The number of tile copies in all Riichi and Riichi-variant games, ever, is always exactly 4
@@ -18,7 +18,7 @@ public abstract class WbRiichi implements WallBuilder
      * @param redCopies An array in MPSZ suit order counting how many red copies each suit has.
      * @param redNumbers An array in MPSZ suit order specifying which tile is the unique red tile in each suit.
      */
-    protected WbRiichi(int[] redCopies, int[] redNumbers)
+    protected RiichiBuilder(int[] redCopies, int[] redNumbers)
     {
         this.redCopies  = redCopies;
         this.redNumbers = redNumbers;

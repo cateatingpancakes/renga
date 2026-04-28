@@ -71,8 +71,8 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
     /**
      * Gets information about the call used to form the meld if it exists.
      * @return The call data, or null if the meld is a closed kan or has no registered call data. Note that it is not
-     * necessarily indicative of some error if the latter case occurs, as a TileMeld, other than ankans, with no call data,
-     * can be validly produced by Hand.interpret() and represent melds present in the closed/hidden part of the hand.
+     * necessarily indicative of some error if the latter case occurs, as TileMelds other than ankans with no call data
+     * can be validly produced by HandSplitter.interpret() representing melds present in the closed/hidden part of the hand.
      */
     public CallData getData()
     {

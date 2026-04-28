@@ -1,10 +1,7 @@
-package com.cateatingpancakes;
+package com.cateatingpancakes.tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.cateatingpancakes.tile.Tile;
-import com.cateatingpancakes.tile.TileSet;
 
 public class DiscardPond extends TileSet
 {

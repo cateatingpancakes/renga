@@ -1,8 +1,7 @@
-package com.cateatingpancakes;
+package com.cateatingpancakes.wall;
 
 import com.cateatingpancakes.tile.Tile;
 import com.cateatingpancakes.tile.TileSet;
-import com.cateatingpancakes.wall.WallBuilder;
 
 public class BasicWall extends TileSet 
 {

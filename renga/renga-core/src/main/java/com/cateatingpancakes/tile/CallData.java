@@ -1,6 +1,8 @@
 package com.cateatingpancakes.tile;
 
-public record CallData(Tile tile, int source)
+import java.io.Serializable;
+
+public record CallData(Tile tile, int source) implements Serializable
 {
     
 }

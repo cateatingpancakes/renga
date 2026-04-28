@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.scijava.nativelib.NativeLoader;
 
-final class LoaderBridge 
+public final class LoaderBridge 
 {
     private static final Set<String> loaded = ConcurrentHashMap.newKeySet();
 
