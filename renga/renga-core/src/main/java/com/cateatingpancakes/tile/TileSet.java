@@ -211,13 +211,43 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Counts how many red tiles are in the tile set.
      * @return The number of red tiles in the collection.
      */
-    public int countRed()
+    public int countAllRed()
     {
         int count = 0;
         for(Tile tile : tiles)
             if(tile.isRed())
                 count++;
         
+        return count;
+    }
+
+    /**
+     * Returns how many tiles have a given index number in the set.
+     * @param index The index number.
+     * @return The count.
+     */
+    public int countOf(int index)
+    {
+        int count = 0;
+        for(Tile tile : tiles)
+            if(tile.toIndex() == index)
+                count++;
+
+        return count;
+    }
+
+    /**
+     * Returns how many tiles are equals(target) in the set.
+     * @param target The target tile.
+     * @return The count of equal tiles.
+     */
+    public int countOf(Tile target)
+    {
+        int count = 0;
+        for(Tile tile : tiles)
+            if(tile.equals(target))
+                count++;
+
         return count;
     }
 

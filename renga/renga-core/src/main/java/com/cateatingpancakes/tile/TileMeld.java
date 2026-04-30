@@ -40,6 +40,15 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
     }
 
     /**
+     * Returns the type of the tile meld.
+     * @return The meld type.
+     */
+    public MeldType getType()
+    {
+        return meldType;
+    }
+
+    /**
      * Returns the leading tile of the meld. In the case of Chii/sequence melds, this is taken to be the lowest-numbered tile from among them.
      * As such, only 7 possible Chii melds exist within each sequence of tiles. In the case of Pon/Kan melds made up of multiple copies of identical
      * tiles, the leading tile is any of the multiple identical tiles in the meld.
@@ -54,9 +63,9 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
      * Counts how many red tiles are in the meld.
      * @return The number of red tiles in the meld.
      */
-    public int countRed()
+    public int countAllRed()
     {
-        return tiles.countRed();
+        return tiles.countAllRed();
     }
 
     /**

@@ -124,6 +124,54 @@ public abstract class GameState implements Serializable
     }
 
     /**
+     * Returns the index of the player with a certain wind.
+     * @param wind The wind to look for.
+     * @return The player's index.
+     */
+    public int playerIndexOf(GameWind wind)
+    {
+        for(int i = 0; i < seats.size(); i++)
+            if(seats.get(i) == wind)
+                return i;
+
+        throw new IllegalStateException("Could not find player with seat wind " + wind);
+    }
+
+    /**
+     * Returns the wind immediately after a given wind.
+     * @param wind The given wind.
+     * @return The next wind.
+     */
+    public GameWind windAfter(GameWind wind)
+    {
+        int currentIndex = playerIndexOf(wind);
+        int targetIndex  = currentIndex + 1;
+
+        // Loop around forward:
+        if(targetIndex >= seats.size())
+            targetIndex = 0;
+
+        return seats.get(targetIndex);
+    }
+
+    /**
+     * Returns the wind immediately before a given wind.
+     * @param wind The given wind.
+     * @return The previous wind.
+     */
+    public GameWind windBefore(GameWind wind)
+    {
+        int currentIndex = playerIndexOf(wind);
+        int targetIndex  = currentIndex - 1;
+
+        // Loop around backward:
+        if(targetIndex < 0)
+            targetIndex = seats.size() - 1;
+
+        return seats.get(targetIndex);
+    }
+
+    /**
      * Determines if no more tiles can be drawn in this state.
      * @return True, if the wall is exhausted.
      */

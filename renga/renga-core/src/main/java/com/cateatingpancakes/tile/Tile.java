@@ -1,6 +1,7 @@
 package com.cateatingpancakes.tile;
 
 import java.io.Serializable;
+import java.util.List;
 
 public final class Tile implements Comparable<Tile>, Serializable
 {
@@ -8,7 +9,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      * Maximum index number possible for a tile.
      * The range for Riichi is 0-33, and almost all Mahjong variants should be covered by 0-41.
      */
-    public static final int INDEX_NUMBER_MAX      = 42;
+    public static final int      INDEX_NUMBER_MAX = 42;
 
     /**
      * Maximum index number
@@ -16,7 +17,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      * index number 0-33 will ever be relevant for algorithmic purposes, such as determining
      * a hand's n-away number or finding all its interpretations.
      */
-    public static final int INDEX_NUMBER_ALG_MAX  = 34;
+    public static final int  INDEX_NUMBER_ALG_MAX = 34;
 
     /**
      * Maximum index number of tiles with numbers within their suit.
@@ -29,10 +30,9 @@ public final class Tile implements Comparable<Tile>, Serializable
     /**
      * The index numbers for the "thirteen orphan" tiles.
      */
-    public static final int[] INDEX_NUMBER_ORPHANS = 
-    {
-        0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
-    };
+    public static final List<Integer> INDEX_NUMBER_ORPHANS = List.of(
+    0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
+    );
 
     
     public static enum TileType 
@@ -301,6 +301,16 @@ public final class Tile implements Comparable<Tile>, Serializable
         return tileType == tile.tileType &&
                number   == tile.number &&
                isRed    == tile.isRed;
+    }
+
+    /**
+     * Compares the index number with another tile's index number and returns true if they are equal.
+     * @param tile The other tile.
+     * @return True, if the index numbers are equal.
+     */
+    public boolean indexEquals(Tile tile)
+    {
+        return toIndex() == tile.toIndex();
     }
 
     @Override
