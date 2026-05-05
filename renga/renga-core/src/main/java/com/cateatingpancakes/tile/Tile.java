@@ -1,18 +1,19 @@
 package com.cateatingpancakes.tile;
 
 import java.io.Serializable;
+import java.util.EnumSet;
 import java.util.List;
 
 public final class Tile implements Comparable<Tile>, Serializable
 {
     /**
-     * Maximum index number possible for a tile.
+     * Maximum index number possible for a tile. This is probably not the constant you're looking for.
      * The range for Riichi is 0-33, and almost all Mahjong variants should be covered by 0-41.
      */
     public static final int      INDEX_NUMBER_MAX = 42;
 
     /**
-     * Maximum index number
+     * Maximum index number relevant for algorithmic purposes.
      * Regardless of flowers/seasons that may or may not be present, only the tiles with
      * index number 0-33 will ever be relevant for algorithmic purposes, such as determining
      * a hand's n-away number or finding all its interpretations.
@@ -34,15 +35,18 @@ public final class Tile implements Comparable<Tile>, Serializable
     0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
     );
 
-    
+    /**
+     * Tile suits.
+     */
     public static enum TileType 
     {
         MANZU, PINZU, SOUZU, HONOR, FLOWER, SEASON
     }
 
-    private final TileType tileType;
-    private final int      number;
-    private final boolean  isRed;
+
+    private final TileType           tileType;
+    private final int                number;
+    private final EnumSet<TileTrait> traits;
 
     /**
      * Returns the 1-character String uniquely associated with a given tile suit in MPSZ notation.
@@ -77,46 +81,54 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Constructs a tile based on its index number. The tile is defaulted to be non-red.
-     * @param tileIndex The tile index.
+     * Constructs a traitless tile based on its index number.
+     * @param tileIndex The tile index number.
      */
     public Tile(int tileIndex)
     {
-        this(tileIndex, false);
+        this(tileIndex, null);
     }
 
     /**
-     * Constructs a tile based on its index number and redness.
-     * @param tileIndex The tile index.
-     * @param isRed Redness of the tile.
+     * Constructs a tile based on its index number and traits.
+     * @param tileIndex The tile index number.
+     * @param traits The traits of the tile.
      */
-    public Tile(int tileIndex, boolean isRed)
+    public Tile(int tileIndex, EnumSet<TileTrait> traits)
     {
-        Tile baseTile = Tile.fromIndex(tileIndex);
-        this(baseTile.tileType, baseTile.number, isRed);
+        Tile base = Tile.fromIndex(tileIndex);
+        this(base.tileType, base.number, traits);
     }
 
     /**
-     * Constructs a tile based on its type and number. The tile is defaulted to be non-red.
+     * Constructs a traitless tile given its suit and rank.
+     * @param tileType The type/suit of the tile.
+     * @param number The number of the tile within its suit, between 0 and SUIT_MAX - 1;
+     */
+    public Tile(TileType tileType, int number)
+    {
+        this(tileType, number, null);
+    }
+
+    /**
+     * Constructs a tile given its complete description in suit, rank and traits.
      * @param tileType The type/suit of the tile.
      * @param number The number of the tile within its suit, between 0 and SUIT_MAX - 1.
+     * @param traits The traits of the tile.
      */
-    public Tile(TileType tileType, int number) 
-    {
-        this(tileType, number, false);
-    }
-
-    /**
-     * Constructs a tile given its complete description in suit, rank and redness.
-     * @param tileType The type/suit of the tile.
-     * @param number The number of the tile within its suit, between 0 and SUIT_MAX - 1.
-     * @param isRed Redness of the tile.
-     */
-    public Tile(TileType tileType, int number, boolean isRed) 
+    public Tile(TileType tileType, int number, EnumSet<TileTrait> traits) 
     {
         this.tileType = tileType;
         this.number   = number;
-        this.isRed    = isRed;
+        
+        if(traits == null || traits.isEmpty()) 
+        {
+            this.traits = EnumSet.noneOf(TileTrait.class);
+        } 
+        else 
+        {
+            this.traits = EnumSet.copyOf(traits);
+        }
     }
 
     /**
@@ -127,7 +139,7 @@ public final class Tile implements Comparable<Tile>, Serializable
     {
         this.tileType = other.tileType;
         this.number   = other.number;
-        this.isRed    = other.isRed;
+        this.traits   = EnumSet.copyOf(other.traits);
     }
 
     /**
@@ -140,7 +152,7 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Converts the tile to an index number, ignoring redness.
+     * Converts the tile to an index number, erasing traits.
      * This is most useful for algorithmic purposes, such as calculating how many tiles a hand is away from being ready.
      * @return The tile index number.
      */
@@ -177,7 +189,7 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Converts an index number into a non-red Tile object of that index number.
+     * Converts an index number into a traitless Tile object of that index number.
      * @param index The index number of the tile.
      * @return The Tile object.
      */
@@ -223,12 +235,36 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Returns the redness of a tile.
-     * @return A boolean value indicating true if the tile is red and false otherwise.
+     * Checks if the tile has a given trait.
+     * @param trait The trait to check for.
+     * @return True, if the tile has the given trait.
      */
-    public boolean isRed()
+    public boolean hasTrait(TileTrait trait)
     {
-        return isRed;
+        return traits.contains(trait);
+    }
+
+    /**
+     * Checks if the tile has a given set of traits.
+     * @param traits The traits to check for.
+     * @return True, if the tile has the given traits.
+     */
+    public boolean hasTraits(EnumSet<TileTrait> traits)
+    {
+        for(TileTrait trait : traits)
+            if(!hasTrait(trait))
+                return false;
+
+        return true;
+    }
+
+    /**
+     * Gets the tile's number within its suit.
+     * @return The tile number.
+     */
+    public int getNumber()
+    {
+        return number;
     }
 
     /**
@@ -239,7 +275,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      */
     public String getMPSZNumber()
     {
-        if(isRed)
+        if(hasTrait(TileTrait.RED))
             return "0";
         else
             // We have to transform the internal representation range [0, SUIT_SIZE - 1] 
@@ -276,12 +312,15 @@ public final class Tile implements Comparable<Tile>, Serializable
 
         if(thisIndex == otherIndex)
         {
-            if(this.isRed == other.isRed)
+            // For now we know how to compare only redness.
+            // TODO: Make this so it compares arbitrarily-traited tiles, for when, say, TileTrait.GLASS is added from Washizu mahjong.
+            
+            if(this.hasTrait(TileTrait.RED) == other.hasTrait(TileTrait.RED))
                 // Same index and same redness = literal same tile.
                 return 0;
             else
                 // Tiles aren't of the same redness = only one is red, is it this or that?
-                return this.isRed ? 1 : -1;
+                return this.hasTrait(TileTrait.RED) ? 1 : -1;
         }
         else
             return thisIndex - otherIndex;
@@ -300,7 +339,7 @@ public final class Tile implements Comparable<Tile>, Serializable
 
         return tileType == tile.tileType &&
                number   == tile.number &&
-               isRed    == tile.isRed;
+               traits.equals(tile.traits);
     }
 
     /**
@@ -316,6 +355,6 @@ public final class Tile implements Comparable<Tile>, Serializable
     @Override
     public int hashCode() 
     {
-        return java.util.Objects.hash(tileType, number, isRed);
+        return java.util.Objects.hash(tileType, number, traits);
     }
 }

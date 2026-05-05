@@ -84,7 +84,7 @@ public class DiscardPond extends TileSet
 
     /**
      * Register a tile as having been called by a player. Does nothing if the tile was already called.
-     * @param index What tile was called.
+     * @param index The index of the called tile within the pond.
      * @param author Who called the tile.
      */
     public void makeCall(int index, int author)
@@ -93,5 +93,14 @@ public class DiscardPond extends TileSet
         {
             callers.put(index, author);
         }
+    }
+
+    /**
+     * Register the last tile as having been called by a player. Does nothing if the tile was already called.
+     * @param author Who called the tile.
+     */
+    public void makeLastCall(int author)
+    {
+        makeCall(lastIndex(), author);
     }
 }

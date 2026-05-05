@@ -8,6 +8,7 @@ public final class RiichiBuilder4P extends RiichiBuilder
 {
     public static final int[] DEFAULT_RED_COPIES  = {1, 2, 1, 0};
     public static final int[] DEFAULT_RED_NUMBERS = {4, 4, 4, 4};
+    public static final int   DEFAULT_RED_NUMBER  = 4;
 
     /**
      * 4-player Riichi wall builder strategy. Defaults to the most common yonma rules for red tiles.

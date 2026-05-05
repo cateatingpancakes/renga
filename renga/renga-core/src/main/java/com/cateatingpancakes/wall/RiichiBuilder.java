@@ -1,8 +1,10 @@
 package com.cateatingpancakes.wall;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 import com.cateatingpancakes.tile.Tile;
+import com.cateatingpancakes.tile.TileTrait;
 
 public abstract class RiichiBuilder implements WallBuilder 
 {
@@ -10,6 +12,12 @@ public abstract class RiichiBuilder implements WallBuilder
     // The number of tile copies in all Riichi and Riichi-variant games, ever, is always exactly 4
     public static final int DEFAULT_TILE_COPIES = 4;
 
+    /**
+     * The maximum index number of Riichi tiles.
+     */
+    public static final int INDEX_NUMBER_RIICHI_MAX = 34;
+
+    
     protected final int[] redCopies;
     protected final int[] redNumbers;
 
@@ -58,12 +66,12 @@ public abstract class RiichiBuilder implements WallBuilder
 
             // Add non-red tiles.
             for(int i = 0; i < black; i++)
-                wall.add(new Tile(tileType, number, false));
+                wall.add(new Tile(tileType, number));
 
             // Then add red tiles, if any.
             // Loop just doesn't run if red == 0.
             for(int i = 0; i < red; i++)
-                wall.add(new Tile(tileType, number, true));
+                wall.add(new Tile(tileType, number, EnumSet.of(TileTrait.RED)));
         }
     }
 }

@@ -60,12 +60,13 @@ public final class TileMeld implements Comparable<TileMeld>, Serializable
     }
 
     /**
-     * Counts how many red tiles are in the meld.
-     * @return The number of red tiles in the meld.
+     * Counts how many tiles with a given trait are in the meld.
+     * @param trait The trait to check for.
+     * @return The number of tiles with the trait.
      */
-    public int countAllRed()
+    public int countAllTrait(TileTrait trait)
     {
-        return tiles.countAllRed();
+        return tiles.countAllTrait(trait);
     }
 
     /**

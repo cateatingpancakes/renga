@@ -71,9 +71,9 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Removes the tile at a specified index in the tile set.
      * @param index The index of the tile to be removed.
      */
-    public void remove(int index)
+    public Tile remove(int index)
     {
-        tiles.remove(index);
+        return tiles.remove(index);
     }
 
     /**
@@ -110,6 +110,34 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
+     * Returns the index at which a given tile first occurs in the tile set.
+     * @param tile The tile to search for.
+     * @return The first index of the tile, or -1 if the tile doesn't exist.
+     */
+    public int find(Tile tile)
+    {
+        for(int i = 0; i < tiles.size(); i++)
+            if(tiles.get(i).equals(tile))
+                return i;
+        
+        return -1;
+    }
+
+    /**
+     * Returns the index at which a tile with a given index number first occurs in the tile set.
+     * @param index The index number of the tile to search for.
+     * @return The first index of the tile, or -1 if the tile doesn't exist.
+     */
+    public int find(int index)
+    {
+        for(int i = 0; i < tiles.size(); i++)
+            if(tiles.get(i).toIndex() == index)
+                return i;
+
+        return -1;
+    }
+
+    /**
      * Returns the number of tiles in the tile set.
      * @return The tile count.
      */
@@ -119,7 +147,7 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
-     * Checks if the tile set contains a specific tile using Tile's equals implementation, that is, accounting for redness.
+     * Checks if the tile set contains a specific tile using Tile's equals implementation, that is, accounting for traits.
      * @param tile The tile to check for.
      * @return True, if the tile set contains the given tile, or false if it does not.
      */
@@ -129,7 +157,7 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
-     * Checks if the tile set contains a specific index number, that is, ignoring redness.
+     * Checks if the tile set contains a specific index number, that is, ignoring traits.
      * @param index The index number of the tile to check for.
      * @return True, if the tile set contains a tile with the given index number.
      */
@@ -171,6 +199,7 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Returns the unique MPSZ notation of a set of tiles.
      * @return The MPSZ notation.
      */
+    // TODO: Make an interface like MPSZNotable for this maybe?
     public String getMPSZNotation()
     {
         if(tiles == null || tiles.isEmpty()) 
@@ -208,14 +237,15 @@ public class TileSet implements Iterable<Tile>, Serializable
     }
 
     /**
-     * Counts how many red tiles are in the tile set.
-     * @return The number of red tiles in the collection.
+     * Counts how many tiles with a given trait are in the tile set.
+     * @param trait The trait to check for.
+     * @return The number of tiles with the given trait.
      */
-    public int countAllRed()
+    public int countAllTrait(TileTrait trait)
     {
         int count = 0;
         for(Tile tile : tiles)
-            if(tile.isRed())
+            if(tile.hasTrait(trait))
                 count++;
         
         return count;

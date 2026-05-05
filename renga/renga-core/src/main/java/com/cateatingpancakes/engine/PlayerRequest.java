@@ -65,6 +65,24 @@ public class PlayerRequest implements Iterable<GameAction>
     }
 
     /**
+     * Choose a game action as the answer to the request.
+     * @param index The index of the chosen GameAction in the ArrayList of legal actions.
+     */
+    public void chooseAction(int index)
+    {
+        takenAction = legalActions.get(index);
+    }
+
+    /**
+     * Returns the number of legal actions registered with the request.
+     * @return The size of the legal actions ArrayList.
+     */
+    public int size()
+    {
+        return legalActions.size();
+    }
+
+    /**
      * Obtains the chosen action.
      * @return The chosen action.
      */

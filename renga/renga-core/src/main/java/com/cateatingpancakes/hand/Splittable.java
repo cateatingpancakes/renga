@@ -2,6 +2,7 @@ package com.cateatingpancakes.hand;
 
 import java.util.ArrayList;
 
+import com.cateatingpancakes.tile.Tile;
 import com.cateatingpancakes.tile.TileMeld;
 
 /**
@@ -22,4 +23,11 @@ public interface Splittable
      * @return An ArrayList of open melds.
      */
     public ArrayList<TileMeld> getOpenMelds();
+
+    /**
+     * Create a new Splittable object of the same kind with an additional tile added.
+     * @param tile The tile to add.
+     * @return The new hand.
+     */
+    public Splittable addNew(Tile tile);
 }

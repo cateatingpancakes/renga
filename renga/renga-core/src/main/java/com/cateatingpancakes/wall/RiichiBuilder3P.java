@@ -8,6 +8,7 @@ public final class RiichiBuilder3P extends RiichiBuilder
 {
     public static final int[] DEFAULT_RED_COPIES  = {0, 1, 1, 0};
     public static final int[] DEFAULT_RED_NUMBERS = {4, 4, 4, 4};
+    public static final int   DEFAULT_RED_NUMBER  = 4;
 
     /**
      * 3-player Riichi wall builder strategy. Defaults to the most common sanma rules for red tiles.

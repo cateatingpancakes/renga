@@ -172,8 +172,30 @@ public abstract class GameState implements Serializable
     }
 
     /**
+     * Returns a sequence of given length of winds immediately following another.
+     * @param wind The first wind.
+     * @param count The length of the wind sequence.
+     * @return The sequence.
+     */
+    public ArrayList<GameWind> windSequence(GameWind wind, int count)
+    {
+        ArrayList<GameWind> sequence = new ArrayList<>();
+        GameWind currentWind = windAfter(wind);
+        int added = 0;
+
+        while(added < count)
+        {
+            sequence.add(currentWind);
+            added++;
+            currentWind = windAfter(currentWind);
+        }
+
+        return sequence;
+    }
+
+    /**
      * Determines if no more tiles can be drawn in this state.
      * @return True, if the wall is exhausted.
      */
-    public abstract boolean drawExhausted();
+    public abstract boolean isExhausted();
 }

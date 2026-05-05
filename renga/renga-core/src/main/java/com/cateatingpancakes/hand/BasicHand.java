@@ -83,4 +83,38 @@ public class BasicHand extends TileSet implements Splittable
     {
         return new ArrayList<>(melds);
     }
+
+    /**
+     * Adds a meld to the hand.
+     * @param meld The meld to add.
+     */
+    public void addMeld(TileMeld meld)
+    {
+        melds.add(new TileMeld(meld));
+    }
+
+    /**
+     * Create a new BasicHand with an additional tile added.
+     * @param tile The tile to add.
+     * @return The new hand.
+     */
+    @Override
+    public BasicHand addNew(Tile tile)
+    {
+        BasicHand newHand = new BasicHand(tiles);
+        newHand.add(tile);
+        return newHand;
+    }
+
+    /**
+     * Create a new BasicHand with a tile removed.
+     * @return The new hand.
+     */
+    @Override
+    public BasicHand removeNew(Tile tile)
+    {
+        BasicHand newHand = new BasicHand(tiles);
+        newHand.remove(tile);
+        return newHand;
+    }
 }

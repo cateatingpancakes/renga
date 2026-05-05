@@ -8,7 +8,7 @@ import com.cateatingpancakes.wall.BasicWall;
 import com.cateatingpancakes.wall.RiichiBuilder3P;
 import com.cateatingpancakes.wall.WallBuilder;
 
-public class RiichiState3P extends RiichiState
+public final class RiichiState3P extends RiichiState
 {
     /**
      * The number of players in the game.

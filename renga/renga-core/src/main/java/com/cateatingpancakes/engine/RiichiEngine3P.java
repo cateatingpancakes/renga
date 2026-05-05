@@ -2,7 +2,7 @@ package com.cateatingpancakes.engine;
 
 import com.cateatingpancakes.state.RiichiState3P;
 
-public class RiichiEngine3P extends RiichiEngine<RiichiState3P>
+public final class RiichiEngine3P extends RiichiEngine<RiichiState3P>
 {
     /**
      * Constructs a new 4-player Riichi engine on a random state.
@@ -13,9 +13,22 @@ public class RiichiEngine3P extends RiichiEngine<RiichiState3P>
     }
 
     @Override
+    public void buildRequest() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buildRequest'");
+    }
+
+    @Override
     public void advance() 
     {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'advance'");
+    }
+
+    @Override
+    public void execute(int who, GameAction action) 
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 }

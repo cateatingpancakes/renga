@@ -85,7 +85,7 @@ public abstract class RiichiState extends GameState
     }
 
     @Override
-    public boolean drawExhausted()
+    public boolean isExhausted()
     {
         return (wall.size() <= 4);
     }
