@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.List;
 
-public final class Tile implements Comparable<Tile>, Serializable
+public final class Tile implements Comparable<Tile>, Serializable, Notable
 {
     /**
      * Maximum index number possible for a tile. This is probably not the constant you're looking for.
@@ -287,6 +287,7 @@ public final class Tile implements Comparable<Tile>, Serializable
      * Returns the unique MPSZ notation of a tile as a 2-character String.
      * @return The MPSZ notation.
      */
+    @Override
     public String getMPSZNotation()
     {
         return getMPSZNumber() + Tile.getMPSZCharacter(tileType);
@@ -303,27 +304,44 @@ public final class Tile implements Comparable<Tile>, Serializable
     }
 
     /**
-     * Compares a tile to another in MPSZ order.
+     * Compares a tile to another in MPSZ order, with fallback to trait
+     * declaration order in TileTrait's enumeration for tiles with the
+     * same index number.
      */
     @Override
     public int compareTo(Tile other)
     {
         int thisIndex = this.toIndex(), otherIndex = other.toIndex();
 
-        if(thisIndex == otherIndex)
+        // Different index numbers are immediately comparable.
+        if(thisIndex != otherIndex) 
         {
-            // For now we know how to compare only redness.
-            // TODO: Make this so it compares arbitrarily-traited tiles, for when, say, TileTrait.GLASS is added from Washizu mahjong.
-            
-            if(this.hasTrait(TileTrait.RED) == other.hasTrait(TileTrait.RED))
-                // Same index and same redness = literal same tile.
-                return 0;
-            else
-                // Tiles aren't of the same redness = only one is red, is it this or that?
-                return this.hasTrait(TileTrait.RED) ? 1 : -1;
+            return Integer.compare(thisIndex, otherIndex);
         }
-        else
-            return thisIndex - otherIndex;
+
+        // Otherwise, compare on traits.
+        if(this.traits.equals(other.traits)) 
+        {
+            return 0;
+        }
+
+
+        for(TileTrait trait : TileTrait.values()
+                    /* declaration order in enumeration */) 
+        {
+            boolean thisTrait = this.hasTrait(trait),
+                    thatTrait = other.hasTrait(trait);
+
+            // Same value = move on to the next thing to compare, both either have it or don't.
+            // Different value = exactly one of them has it, is it this or that:
+            if(thisTrait != thatTrait) 
+            {
+                return thisTrait ? 1 : -1;
+            }
+        }
+
+        // Should never reach this.
+        return 0;
     }
 
     @Override

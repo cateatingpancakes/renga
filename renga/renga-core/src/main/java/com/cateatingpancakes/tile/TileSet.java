@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 
-public class TileSet implements Iterable<Tile>, Serializable 
+public class TileSet implements Iterable<Tile>, Serializable, Notable
 {
     protected ArrayList<Tile> tiles;
 
@@ -199,7 +199,7 @@ public class TileSet implements Iterable<Tile>, Serializable
      * Returns the unique MPSZ notation of a set of tiles.
      * @return The MPSZ notation.
      */
-    // TODO: Make an interface like MPSZNotable for this maybe?
+    @Override
     public String getMPSZNotation()
     {
         if(tiles == null || tiles.isEmpty()) 

@@ -10,9 +10,21 @@ import com.cateatingpancakes.tile.TileSet;
 
 public class CommonSplitter implements Splitter
 {
+    /**
+     * Whether we failed to request the library, or not.
+     */
+    private static boolean CORE_REQUEST_FAIL = false;
+
     static
     {
-        LoaderBridge.requestLibrary("core");
+        try 
+        {
+            LoaderBridge.requestLibrary("core");
+        } 
+        catch(Throwable t) 
+        {
+            CORE_REQUEST_FAIL = true;
+        }
     }
 
     /**
@@ -31,11 +43,202 @@ public class CommonSplitter implements Splitter
      */
     private native int __tilesAway(int[] countArray);
 
+
+    /**
+     * Fallback methods block start:
+     */
+
+    private int minAway;
+
+    private void nAwayStd(int[] cntArray, int idx, int groups, int pairs, int waits)
+    {
+        final int[] MOD_9 = 
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            0, 1, 2, 3, 4, 5, 6, 7, 8,
+            0, 1, 2, 3, 4, 5, 6, 7, 8
+        };
+
+        while(idx < Tile.INDEX_NUMBER_ALG_MAX && cntArray[idx] == 0)
+        {
+            idx++;
+        }
+
+        if(idx >= Tile.INDEX_NUMBER_ALG_MAX)
+        {
+            int headOk = (pairs > 0) ? 1 : 0,
+                waitsPairs = waits + Math.max(0, pairs - 1),
+                away;
+
+            if(groups + waitsPairs > 4)
+            {
+                waitsPairs = 4 - groups;
+            }
+
+            away = 8 - (2 * groups) - waitsPairs - headOk;
+            minAway = Math.min(minAway, away);
+            return;
+        }
+
+        if(cntArray[idx] >= 3)
+        {
+            cntArray[idx] -= 3;
+
+            nAwayStd(cntArray, idx, groups + 1, pairs, waits);
+
+            cntArray[idx] += 3;
+        }
+
+        if(cntArray[idx] >= 2) 
+        {
+            cntArray[idx] -= 2;
+
+            nAwayStd(cntArray, idx, groups, pairs + 1, waits);
+
+            cntArray[idx] += 2;
+        }
+
+        if(idx < Tile.INDEX_NUMBER_SUIT_MAX && MOD_9[idx] <= 6) 
+        {
+            if(cntArray[idx + 1] > 0 && cntArray[idx + 2] > 0) 
+            {
+                cntArray[idx]--; 
+                cntArray[idx + 1]--; 
+                cntArray[idx + 2]--;
+
+                nAwayStd(cntArray, idx, groups + 1, pairs, waits);
+
+                cntArray[idx]++; 
+                cntArray[idx + 1]++; 
+                cntArray[idx + 2]++;
+            }
+            
+            if(cntArray[idx + 2] > 0) 
+            {
+                cntArray[idx]--; 
+                cntArray[idx + 2]--;
+
+                nAwayStd(cntArray, idx, groups, pairs, waits + 1);
+
+                cntArray[idx]++; 
+                cntArray[idx + 2]++;
+            }
+        }
+
+        if(idx < Tile.INDEX_NUMBER_SUIT_MAX && MOD_9[idx] <= 7)
+        {
+            if(cntArray[idx + 1] > 0) 
+            {
+                cntArray[idx]--; 
+                cntArray[idx + 1]--;
+
+                nAwayStd(cntArray, idx, groups, pairs, waits + 1);
+
+                cntArray[idx]++; 
+                cntArray[idx + 1]++;
+            }
+        }
+
+        cntArray[idx]--;
+        nAwayStd(cntArray, idx, groups, pairs, waits);
+        cntArray[idx]++;
+    }
+
+    private void nAwayPairs(int[] cntArray)
+    {
+        int pairs = 0, types = 0, away;
+
+        for(int i = 0; i < Tile.INDEX_NUMBER_ALG_MAX; i++) 
+        {
+            if(cntArray[i] >= 2) 
+                pairs++;
+
+            if(cntArray[i] > 0) 
+                types++;
+        }
+
+        away = 6 - pairs;
+
+        if(types < 7)
+            away += (7 - types);
+
+        minAway = Math.min(minAway, away);
+    }
+
+    private void nAwayOrphans(int[] cntArray) 
+    {
+        final int[] ORPHANS_IDX = 
+        {
+            0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33
+        };
+
+        int orphansCnt = 0, headOk = 0, away;
+
+        for(int i = 0; i < 13; i++) 
+        {
+            int idx = ORPHANS_IDX[i];
+
+            if(cntArray[idx] > 0) 
+            {
+                orphansCnt++;
+                
+                if(cntArray[idx] >= 2) 
+                    headOk = 1;
+            }
+        }
+
+        away = 13 - orphansCnt - headOk;
+        minAway = Math.min(minAway, away);
+    }
+
+    private void nAway(int[] cntArray, int calls)
+    {
+        nAwayStd(cntArray, 0, calls, 0, 0);
+
+        if(calls == 0)
+        {
+            nAwayPairs(cntArray);
+            
+            nAwayOrphans(cntArray);
+        }
+    }
+
+    /**
+     * Fallback methods block end.
+     */
+
+
     @Override
     public int tilesAway(Splittable hand) 
     {
-        // TODO: Implement and call a Java-only fallback if the native isn't available.
-        return __tilesAway(hand.toCountArray());
+        if(CORE_REQUEST_FAIL)
+        {
+            // This bit is also ported literally from the C++ library.
+            // Slightly ugly to put this here, but functional and an exact translation.
+
+            final int[] CALLS = 
+            {
+                4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0
+            };
+
+            int[] cntArray = hand.toCountArray();
+
+            int tileCnt = 0, calls;
+            
+            for(int i = 0; i < Tile.INDEX_NUMBER_MAX; i++)
+                tileCnt += cntArray[i];
+
+            minAway = 8;
+
+            calls = CALLS[tileCnt];
+            nAway(cntArray, calls);
+
+            return minAway;
+        }
+        else
+        {
+            return __tilesAway(hand.toCountArray());
+        }
     }
 
     @Override

@@ -1,0 +1,15 @@
+# Created at 2026-05-05T16:21:22.546
+WARNING: A restricted method in java.lang.System has been called
+
+# Created at 2026-05-05T16:21:22.546
+WARNING: java.lang.System::loadLibrary has been called by org.scijava.nativelib.NativeLoader in an unnamed module (file:/home/mihnea/.m2/repository/org/scijava/native-lib-loader/2.4.0/native-lib-loader-2.4.0.jar)
+
+# Created at 2026-05-05T16:21:22.546
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+
+# Created at 2026-05-05T16:21:22.547
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+# Created at 2026-05-05T16:21:22.547
+
+

@@ -34,5 +34,6 @@ com/cateatingpancakes/wall/BasicWall.class
 com/cateatingpancakes/tile/TileMeld.class
 com/cateatingpancakes/engine/EngineRequest.class
 com/cateatingpancakes/engine/GameEngine.class
+com/cateatingpancakes/engine/RiichiEngine4P$1.class
 com/cateatingpancakes/engine/RiichiEngine$EngineMoment.class
 com/cateatingpancakes/state/GameWind.class

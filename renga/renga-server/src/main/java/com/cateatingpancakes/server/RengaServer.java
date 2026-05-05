@@ -1,17 +1,32 @@
 package com.cateatingpancakes.server;
 
-import java.util.Scanner;
-
-import com.cateatingpancakes.engine.GameAction;
-import com.cateatingpancakes.engine.PlayerRequest;
-import com.cateatingpancakes.engine.RiichiEngine4P;
 import com.cateatingpancakes.hand.BasicHand;
+import com.cateatingpancakes.hand.CommonSplitter;
+import com.cateatingpancakes.hand.Splitter;
+import com.cateatingpancakes.wall.BasicWall;
+import com.cateatingpancakes.wall.RiichiBuilder4P;
+import com.cateatingpancakes.wall.WallBuilder;
 
 public class RengaServer 
 {
     public static void main(String[] args)
     {
-        try (Scanner sc = new Scanner(System.in)) {
+        int sum = 0;
+        Splitter splitter = new CommonSplitter();
+
+        for(long seed = 0; seed < 100000; seed++)
+        {
+            WallBuilder strategy = new RiichiBuilder4P();
+            BasicWall wall = new BasicWall(strategy, seed);
+            BasicHand hand = new BasicHand(wall, 13);
+            sum += splitter.tilesAway(hand);
+        }
+
+        System.out.println(sum);
+
+        /*
+        try(Scanner sc = new Scanner(System.in)) 
+        {
             RiichiEngine4P reng = new RiichiEngine4P();
             
             for(int i = 0; i < 100; i++)
@@ -71,5 +86,6 @@ public class RengaServer
                 reng.advance();
             }
         }
+        */
     }
 }
